@@ -9,4 +9,79 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  
+  <!--  컨텍스트 파라미터
+  				웹 어플리케이션 내의 모든 서블릿, JSP가 공유할 수 있는 정보 -->
+  <context-param>
+  	<param-name>dburl</param-name>
+  	<param-value>jdbc:oracle:thin:@220.85.164.169:1521:xe</param-value>
+  </context-param>
+  		
+   <context-param>
+  	<param-name>dbuser</param-name>
+  	<param-value>SEUNG</param-value>
+  </context-param>
+  
+   <context-param>
+  	<param-name>dbpass</param-name>
+  	<param-value>1234</param-value>
+  </context-param>
+  
+  
+  <!-- 필터 등록 -->
+  <filter>
+  	<filter-name>EncodingFilter</filter-name>
+  	<filter-class>com.bit.servlet.EncodingFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>EncodingFilter</filter-name>
+  	<url-pattern>/*	</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- 서블릿 등록 -->
+  <servlet>
+  	<servlet-name>HelloServlet</servlet-name> <!--  1) 서블릿 검색을 위한 이름 -->
+  	<servlet-class>com.bit.servlet.HelloServlet</servlet-class>	
+  	<!-- 2) 서블릿의 실제 클래스 패키지와 클래스명 -->
+  </servlet>
+  
+  <!-- 서블릿 매핑: 실제 서블릿 클래스가 어떤 url에 응답을 돌려줘야 할지 -->
+  <servlet-mapping>
+	  <!-- 3) url패턴에 응답해야 할 서블릿의 이름 -->
+	  <servlet-name>HelloServlet</servlet-name>
+	  <!--  4) 서블릿이 응답을 돌려주기 위해 반응할 url 패턴 -->
+	  <url-pattern>/hs</url-pattern>
+  </servlet-mapping>
+  
+  <!--  
+  요청 /hs -> 4) -> 3) -> 1) -> 2) -> 브라우저에 응답 
+  -->
+  
+  
+  <servlet>
+  	<servlet-name>LifecycleServlet</servlet-name>
+  	<servlet-class>com.bit.servlet.LifecycleServlet</servlet-class>
+  	<!--  서블릿 초기화 파라미터
+  						개별 서블릿 내에서만 접근 가능 -->
+  	<init-param>
+  		<param-name>servlet-name</param-name>
+  		<param-value>서블릿 초기화 파라미터</param-value>
+  	</init-param>
+  </servlet>
+  
+  <servlet-mapping>
+	  <servlet-name>LifecycleServlet</servlet-name>
+	  <url-pattern>/life</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!--  오류 페이지 지정 -->
+  <error-page>
+  	<error-code>404</error-code>	<!-- 404 NOT FOUND 오류 발생시 보요줄 페이지 -->
+  	<location>/view/error/error.404.jsp</location>
+  </error-page>
+  
 </web-app>
